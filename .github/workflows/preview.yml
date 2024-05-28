@@ -3,6 +3,11 @@ name: Flutter Web Preview
 on:
   issue_comment:
     types: [created]
+    
+permissions:
+    contents: write
+    issues: write
+
 jobs:
   build_and_deploy:
     if: github.event.comment.body == '/preview'
@@ -27,7 +32,6 @@ jobs:
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        external_repository: ${{ github.repository }}
         publish_dir: build/web
 
     - name: Post deployment comment
