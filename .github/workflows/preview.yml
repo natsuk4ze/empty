@@ -43,7 +43,7 @@ jobs:
 
     - name: Post deployment comment
       run: |
-        DEPLOYMENT_URL="https://${{ github.repository_owner }}.github.io/${{ github.repository }}"
+        DEPLOYMENT_URL="https://${{ github.repository_owner }}.github.io/${{ steps.version.outputs.repository }}"
         COMMENT_BODY="Preview URL: $DEPLOYMENT_URL"
         curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
              -X POST \
