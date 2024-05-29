@@ -1,3 +1,57 @@
+#name: Flutter Web Preview
+#
+#on:
+#  issue_comment:
+#    types: [created]
+#
+#jobs:
+#  build:
+#    if: github.event.comment.body == '/preview'
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Checkout PR
+#        if: github.event_name == 'issue_comment'
+#        run: gh pr checkout ${{ github.event.issue.number }}
+#        env:
+#          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#
+#      - name: Set up Flutter
+#        uses: subosito/flutter-action@v2
+#        with:
+#          channel: stable
+#
+#      - name: Install dependencies
+#        run: flutter pub get
+#
+#      - name: Repository
+#        id: version
+#        run: |
+#          REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
+#          echo ::set-output name=repository::$REPOSITORY
+#
+#      - name: Build Flutter web
+#        run: flutter build web --base-href /${{ steps.version.outputs.repository }}/
+#
+#      - name: Upload deployment
+#        uses: actions/upload-pages-artifact@v3
+#        with:
+#          path: build/web
+#
+#  deploy:
+#    needs: build
+#    runs-on: ubuntu-latest
+#    environment:
+#      name: github-pages
+#      url: ${{ steps.deployment.outputs.page_url }}
+#    permissions:
+#      pages: write
+#      id-token: write
+#    steps:
+#      - uses: actions/deploy-pages@v4
+#        id: deployment
+#
+
 name: Flutter Web Preview
 
 on:
@@ -33,20 +87,8 @@ jobs:
       - name: Build Flutter web
         run: flutter build web --base-href /${{ steps.version.outputs.repository }}/
 
-      - name: Upload deployment
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: build/web
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    permissions:
-      pages: write
-      id-token: write
-    steps:
-      - uses: actions/deploy-pages@v4
-        id: deployment
+          github_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./build/web
