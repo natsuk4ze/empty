@@ -52,7 +52,7 @@
 #        id: deployment
 #
 
-name: Flutter Web Preview
+name: Create Preview
 
 on:
   issue_comment:

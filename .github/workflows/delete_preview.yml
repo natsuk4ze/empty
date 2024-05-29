@@ -1,0 +1,31 @@
+name: Delete Preview
+
+on:
+  issue_comment:
+    types: [created]
+jobs:
+  build:
+    if: github.event.comment.body == '/delete'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Repository
+        id: version
+        run: |
+          REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
+          echo ::set-output name=repository::$REPOSITORY
+
+      - name: Delete deployment directory
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git checkout gh-pages
+          git rm -r "${{ steps.version.outputs.repository }}/${{ github.event.issue.number }}"
+          git commit -m "Remove deployment preview for PR #${{ github.event.issue.number }}"
+          git push origin gh-pages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
