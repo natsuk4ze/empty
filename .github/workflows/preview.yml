@@ -15,11 +15,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-      - run: git checkout HEAD^
+      - uses: actions/checkout@v4
+      - name: Checkout PR
+        if: github.event_name == 'issue_comment'
+        run: gh pr checkout ${{ github.event.issue.number }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -55,5 +56,3 @@ jobs:
     steps:
       - uses: actions/deploy-pages@v4
         id: deployment
-
-     
