@@ -30,7 +30,7 @@ jobs:
       id: version
       run: |
         REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
-        echo "{name}={value}" >> $REPOSITORY
+        echo "REPOSITORY=$REPOSITORY" >> $GITHUB_ENV
 
     - name: Build Flutter web
       run: flutter build web --base-href /${{ steps.version.outputs.repository }}/
