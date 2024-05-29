@@ -25,7 +25,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git fetch
           git checkout gh-pages
-          git rm -r "${{ steps.version.outputs.repository }}/${{ github.event.issue.number }}"
+          git rm -r "${{ github.event.issue.number }}"
           git commit -m "Remove deployment preview for PR #${{ github.event.issue.number }}"
           git push origin gh-pages
         env:
