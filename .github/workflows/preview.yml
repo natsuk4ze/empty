@@ -4,23 +4,13 @@ on:
   issue_comment:
     types: [created]
 
-permissions:
-  contents: write
-  issues: write
-  pull-requests: write
-
 jobs:
   build:
     if: github.event.comment.body == '/preview'
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-      - name: Checkout PR
-        if: github.event_name == 'issue_comment'
-        run: gh pr checkout ${{ github.event.issue.number }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -39,12 +29,10 @@ jobs:
       - name: Build Flutter web
         run: flutter build web --base-href /${{ steps.version.outputs.repository }}/
 
-      - name: Upload artifact
-        id: upload-artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload deployment
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: "github-pages"
-          path: build/web/
+          path: build/web
 
   deploy:
     needs: build
