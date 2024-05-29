@@ -57,8 +57,6 @@ name: Flutter Web Preview
 on:
   issue_comment:
     types: [created]
-permissions:
-  contents: write
 jobs:
   build:
     if: github.event.comment.body == '/preview'
@@ -92,4 +90,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: ./build/web
+          publish_dir: build/web
