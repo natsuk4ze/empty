@@ -34,10 +34,12 @@ jobs:
         id: version
         run: |
           REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
-          echo ::set-output name=repository::$REPOSITORY
+          PR_NUMBER=${{ github.event.issue.number }}
+          echo "repository=$REPOSITORY" >> $GITHUB_ENV
+          echo "pr_number=$PR_NUMBER" >> $GITHUB_ENV
 
       - name: Build Flutter web
-        run: flutter build web --base-href /${{ steps.version.outputs.repository }}/
+        run: flutter build web --base-href /${{ steps.version.outputs.repository }}/pr-${{ steps.version.outputs.pr_number }}/
 
       - name: Upload deployment
         uses: actions/upload-pages-artifact@v3
