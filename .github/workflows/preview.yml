@@ -30,7 +30,7 @@ jobs:
       id: version
       run: |
         REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
-        echo ::set-output name=repository::$REPOSITORY
+        echo "{name}={value}" >> $REPOSITORY
 
     - name: Build Flutter web
       run: flutter build web --base-href /${{ steps.version.outputs.repository }}/
