@@ -45,3 +45,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: ${{ github.event.issue.number }}
           publish_dir: build/web
+          destination_dir: ${{ github.event.issue.number }}
