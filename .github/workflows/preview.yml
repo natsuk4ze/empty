@@ -94,4 +94,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build/web
           destination_dir: ${{ github.event.issue.number }}
-          publish_branch: ${{ github.head_ref }}
+          publish_branch: ${{ github.ref_name }}
