@@ -34,12 +34,10 @@ jobs:
         id: version
         run: |
           REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
-          PR_NUMBER=${{ github.event.issue.number }}
           echo "repository=$REPOSITORY" >> $GITHUB_ENV
-          echo "pr_number=$PR_NUMBER" >> $GITHUB_ENV
 
       - name: Build Flutter web
-        run: flutter build web --base-href /${{ steps.version.outputs.repository }}/pr-${{ steps.version.outputs.pr_number }}/
+        run: flutter build web --base-href /${{ steps.version.outputs.repository }}/pr-${{ github.event.issue.number }}/
 
       - name: Upload deployment
         uses: actions/upload-pages-artifact@v3
@@ -51,7 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}/pr-${{ github.event.issue.number }}
     permissions:
       pages: write
       id-token: write
