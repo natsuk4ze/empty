@@ -34,10 +34,10 @@ jobs:
         id: version
         run: |
           REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
-          echo "repository=$REPOSITORY" >> $GITHUB_ENV
+          echo ::set-output name=repository::$REPOSITORY
 
       - name: Build Flutter web
-        run: flutter build web --base-href /${{ steps.version.outputs.repository }}/
+        run: flutter build web --base-href /${{ steps.version.outputs.repository }}/pr-${{ github.event.issue.number }}
 
       - name: Upload deployment
         uses: actions/upload-pages-artifact@v3
