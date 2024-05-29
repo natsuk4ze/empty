@@ -62,12 +62,8 @@ jobs:
     if: github.event.comment.body == '/preview'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Checkout PR
-        if: github.event_name == 'issue_comment'
-        run: gh pr checkout ${{ github.event.issue.number }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
