@@ -37,12 +37,24 @@ jobs:
           echo ::set-output name=repository::$REPOSITORY
 
       - name: Build Flutter web
-        run: flutter build web --base-href /${{ steps.version.outputs.repository }}/${{ github.event.issue.number }}/
+        run: flutter build web --base-href /${{ steps.version.outputs.repository }}/
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload artifact
+        id: upload-artifact
+        uses: actions/upload-artifact@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: ${{ github.event.issue.number }}
-          publish_dir: build/web
-          destination_dir: ${{ github.event.issue.number }}
+          name: "github-pages"
+          path: build/web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
