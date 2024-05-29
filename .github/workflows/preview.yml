@@ -37,7 +37,7 @@ jobs:
           echo ::set-output name=repository::$REPOSITORY
 
       - name: Build Flutter web
-        run: flutter build web --base-href /${{ steps.version.outputs.repository }}/pr-${{ github.event.issue.number }}
+        run: flutter build web --base-href /${{ steps.version.outputs.repository }}/pr-${{ github.event.issue.number }}/
 
       - name: Upload deployment
         uses: actions/upload-pages-artifact@v3
