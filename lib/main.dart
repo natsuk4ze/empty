@@ -16,6 +16,9 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Preview'),
+        ),
         body: Center(
           child: Text('Count: $count'),
         ),
