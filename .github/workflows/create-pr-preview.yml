@@ -32,7 +32,7 @@ jobs:
           echo ::set-output name=repository::$REPOSITORY
 
       - name: Build Flutter web
-        run: flutter build web --base-href /${{ steps.version.outputs.repository }}/
+        run: flutter build web --base-href /${{github.repository.name}}/
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
