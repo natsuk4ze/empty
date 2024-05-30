@@ -13,12 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Repository
-        id: version
-        run: |
-          REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
-          echo ::set-output name=repository::$REPOSITORY
-
       - name: Delete deployment directory
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"

@@ -25,12 +25,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Repository
-        id: version
-        run: |
-          REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
-          echo ::set-output name=repository::$REPOSITORY
-
       - name: Build Flutter web
         run: flutter build web --base-href /${{github.event.repository.name}}/
 
