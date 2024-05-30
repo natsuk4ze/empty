@@ -1,6 +1,11 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
-void main() => runApp(const App());
+void main() => runApp(DevicePreview(
+      enabled: kIsWeb,
+      builder: (_) => const App(),
+    ));
 
 class App extends StatefulWidget {
   const App({super.key});
