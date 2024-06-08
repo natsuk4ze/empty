@@ -15,7 +15,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  int count = 1;
+  int count = 2;
 
   @override
   Widget build(BuildContext context) {
